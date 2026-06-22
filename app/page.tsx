@@ -9,7 +9,6 @@ import {
   Code,
   Smartphone,
   Layers,
-  Plus,
   Star,
   Heart,
   MessageSquare,
@@ -52,11 +51,13 @@ const reviews = [
 
 export default function Portfolio() {
   const [activeQuote, setActiveQuote] = useState(0)
-  const [isFabOpen, setIsFabOpen] = useState(false)
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false)
+  const [chatbotStep, setChatbotStep] = useState<"menu" | "contact" | "review" | null>("menu")
   const [modalType, setModalType] = useState<"contact" | "review" | "endorse" | null>(null)
   const [selectedProject, setSelectedProject] = useState<number | null>(null)
   const [reviewStars, setReviewStars] = useState(0)
   const [customerCount, setCustomerCount] = useState(0)
+  const [chatbotMessage, setChatbotMessage] = useState("")
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -88,56 +89,118 @@ export default function Portfolio() {
   const projects = [
     {
       title: "CaCu",
-      description:
-        "All-in-one business SME management platform with comprehensive invoicing, inventory management, expense tracking, and financial analytics. Built with React + Node.js + PostgreSQL for seamless operations across multiple business locations.",
+      overview: "All-in-one business SME management platform with comprehensive invoicing, inventory management, expense tracking, and financial analytics.",
+      problem: "SME owners struggled managing invoices, inventory, and expenses across multiple spreadsheets with no real-time insights.",
+      solution: "Built an integrated dashboard where users can create invoices, track inventory, log expenses, and view financial analytics in one place.",
+      features: "Invoice generation, real-time inventory tracking, expense categorization, financial reports, multi-location support, Stripe integration",
+      technologies: [
+        { name: "React", use: "Built responsive, dynamic UI for dashboard and forms. Used state management for real-time updates." },
+        { name: "Node.js", use: "Created RESTful APIs for invoice processing, inventory management, and expense tracking." },
+        { name: "PostgreSQL", use: "Stored business data with relational schemas for invoices, inventory, and transactions." },
+        { name: "Stripe", use: "Integrated payment processing for online invoice payments." }
+      ],
+      challenges: "Handling concurrent updates to inventory when multiple users access the same items. Solved with optimistic locking and real-time sync.",
       tags: ["React", "Node.js", "PostgreSQL", "Stripe"],
       link: "#",
       isCase: false,
     },
     {
       title: "Foodify9ja Bot",
-      description:
-        "Revolutionary AI-powered WhatsApp bot that transforms grocery shopping. Users browse products, manage carts, process payments, and track deliveries without leaving WhatsApp. Integrated with payment providers and real-time delivery tracking. Custom NLP for product search and order management.",
+      overview: "Revolutionary AI-powered WhatsApp bot that transforms grocery shopping by enabling browsing, purchasing, and delivery tracking without leaving WhatsApp.",
+      problem: "Users in Nigeria struggled with traditional e-commerce—poor internet, complex checkouts, delivery tracking issues. WhatsApp was always available.",
+      solution: "Built a conversational WhatsApp bot where users browse groceries, add to cart, make payments, and track deliveries through chat.",
+      features: "Product search with NLP, shopping cart management, payment integration, real-time delivery tracking, order history, favorites",
+      technologies: [
+        { name: "Node.js", use: "Built WhatsApp bot server handling incoming messages, processing orders, and managing conversations." },
+        { name: "WhatsApp API", use: "Integrated Twilio/WhatsApp Business API for message delivery and customer communication." },
+        { name: "AI/ML", use: "Implemented NLP for product matching—users type 'rice 10kg' and bot understands intent and suggests products." },
+        { name: "Redis", use: "Cached product catalog and user sessions for fast response times and reduced database queries." }
+      ],
+      challenges: "Building intuitive UX within WhatsApp's text-only interface. Customers needed guidance on commands. Solved by creating smart quick-reply buttons.",
       tags: ["Node.js", "WhatsApp API", "AI/ML", "Redis"],
       link: "#",
       isCase: true,
     },
     {
       title: "Sturdivv",
-      description:
-        "Innovative study platform that transforms scattered notes into structured, comprehensive learning material. Features AI-powered content organization, video integration, interactive quizzes, and spaced repetition algorithms. Helps students learn faster with personalized study paths.",
+      overview: "Innovative study platform that transforms scattered notes into structured, comprehensive learning material with AI-powered organization and spaced repetition.",
+      problem: "Students had disorganized notes scattered across notebooks and apps. They struggled to create effective study materials and track progress.",
+      solution: "Platform where students upload notes, and AI organizes them into structured courses with auto-generated summaries, quizzes, and study schedules.",
+      features: "Note upload and organization, AI-powered course generation, video integration, interactive quizzes, spaced repetition scheduling, progress tracking",
+      technologies: [
+        { name: "React", use: "Built interactive UI for note uploading, course viewing, quiz taking, and progress dashboards." },
+        { name: "TypeScript", use: "Ensured type-safe frontend code for complex state management and API interactions." },
+        { name: "AI", use: "Used OpenAI API to analyze notes, generate summaries, create quiz questions, and suggest study schedules." },
+        { name: "PostgreSQL", use: "Stored users, notes, generated courses, quiz responses, and learning progress." }
+      ],
+      challenges: "Generating high-quality summaries from poorly structured notes. Solved by implementing multi-stage AI processing with validation.",
       tags: ["React", "TypeScript", "AI", "PostgreSQL"],
       link: "https://sturdivv.vercel.app",
       isCase: false,
     },
     {
       title: "PingBack",
-      description:
-        "Enterprise omnichannel customer support platform consolidating conversations from X, Telegram, WhatsApp, Instagram, and web widgets into a single inbox. Features real-time notifications, team collaboration, conversation routing, and comprehensive analytics. Used by 23+ businesses globally.",
+      overview: "Enterprise omnichannel customer support platform consolidating conversations from X, Telegram, WhatsApp, Instagram, and web into a single inbox.",
+      problem: "Support teams managed 5+ channels separately, missing messages, duplicating responses, and losing context across platforms.",
+      solution: "Unified dashboard where all customer messages from different channels appear in one inbox with unified conversation threads.",
+      features: "Multi-channel integration, unified inbox, team collaboration, message routing, conversation analytics, knowledge base, automation",
+      technologies: [
+        { name: "Next.js", use: "Built SSR UI with real-time updates for messages and team collaboration features." },
+        { name: "TypeScript", use: "Maintained type safety across complex integrations with multiple third-party APIs." },
+        { name: "WebSocket", use: "Implemented real-time message syncing so teams see new messages instantly across channels." },
+        { name: "PostgreSQL", use: "Stored conversations, user data, team configurations, and analytics." }
+      ],
+      challenges: "Handling API rate limits from different platforms (WhatsApp, Telegram, X) while maintaining real-time delivery. Solved with intelligent queuing.",
       tags: ["Next.js", "TypeScript", "WebSocket", "PostgreSQL"],
       link: "https://pingback.live",
       isCase: false,
     },
     {
       title: "Theo AI",
-      description:
-        "Autonomous AI support agent powered by PingBack, managing customer conversations across multiple channels. Knowledge-base powered by business documents (PDFs, PPTs, Markdown, Google Drive, Notion). Integrated with Slack, Discord, Shopify, and Stripe for comprehensive customer context. Delivers instant, accurate responses 24/7.",
+      overview: "Autonomous AI support agent that manages customer conversations across multiple channels using business knowledge base and real-time integrations.",
+      problem: "Support teams spent hours answering repetitive questions. Customers waited for responses. Knowledge scattered across docs and PDFs.",
+      solution: "AI agent that reads business knowledge (PDFs, Notion, Google Drive), understands customer issues, and responds automatically 24/7 across channels.",
+      features: "Knowledge base ingestion, intelligent message routing, autonomous responses, Slack/Discord integration, Shopify/Stripe customer context, human escalation",
+      technologies: [
+        { name: "AI/ML", use: "Used LLMs (GPT-4) to understand customer intent and generate context-aware responses based on business knowledge." },
+        { name: "LLMs", use: "Fine-tuned language models on business documents to provide accurate, brand-aligned responses." },
+        { name: "Integration APIs", use: "Connected to Shopify for order info, Stripe for payment status, Slack for team notifications, Discord for community support." },
+        { name: "Node.js", use: "Built backend service orchestrating AI, integrations, and channel management." }
+      ],
+      challenges: "Ensuring AI responses align with brand voice and handles edge cases. Solved with prompt engineering and human review workflows.",
       tags: ["AI/ML", "LLMs", "Integration APIs", "Node.js"],
       link: "https://pingback.live/theo",
       isCase: true,
     },
     {
       title: "ClearOff",
-      description:
-        "E-commerce marketplace for sustainable decluttering and resale. Users easily list used items with photos and descriptions, buyers browse and purchase, with built-in messaging and secure transactions. Features rating system, seller verification, and eco-friendly packaging recommendations.",
+      overview: "E-commerce marketplace enabling sustainable decluttering and resale of used items with secure transactions and built-in messaging.",
+      problem: "People wanted to sell used items but faced friction with fragmented platforms, payment concerns, and shipping complexity.",
+      solution: "Simple marketplace where users list items with photos, buyers browse and purchase securely, with built-in messaging and seller verification.",
+      features: "Easy listing creation, secure payments, buyer-seller messaging, seller ratings, search and filters, shipping integration",
+      technologies: [
+        { name: "React", use: "Built intuitive UI for browsing items, creating listings, managing orders, and messaging." },
+        { name: "Node.js", use: "Created APIs for listing management, transactions, messaging, and seller/buyer workflows." },
+        { name: "Stripe", use: "Integrated payments to securely handle buyer payments and seller payouts." },
+        { name: "PostgreSQL", use: "Stored listings, user profiles, transactions, messages, and ratings." }
+      ],
+      challenges: "Preventing fraudulent sellers and ensuring payment security. Solved with seller verification and escrow-like payment holds.",
       tags: ["React", "Node.js", "Stripe", "PostgreSQL"],
       link: "https://clearoff.vercel.app",
       isCase: false,
     },
     {
       title: "heykaytay.live",
-      description:
-        "Professional portfolio website showcasing 3+ years of full-stack development expertise. Clean, Notion-inspired design with interactive modals for contact, reviews, and endorsements. Features real-time customer counter, rotating motivational quotes, and detailed project case studies.",
+      overview: "Professional portfolio website showcasing 3+ years of full-stack expertise with interactive project modals, real-time customer counter, and AI-powered chatbot.",
+      problem: "Needed a memorable, interactive portfolio to land top-tier opportunities and demonstrate full-stack and design capabilities.",
+      solution: "Built a Notion-inspired portfolio with detailed project case studies, interactive modals, rotating quotes, and an AI mascot chatbot.",
+      features: "Interactive project modals with detailed case studies, mascot chatbot with prebuilt commands, client reviews, tech stack showcase, real-time customer counter",
+      technologies: [
+        { name: "Next.js", use: "Built SSR website for optimal SEO and performance with App Router." },
+        { name: "TypeScript", use: "Ensured type-safe component architecture and API interactions." },
+        { name: "Tailwind CSS", use: "Styled with Tailwind for responsive, modern design while maintaining design system consistency." }
+      ],
+      challenges: "Creating an engaging, interactive experience that doesn't sacrifice performance or load time. Solved with lazy loading and optimized modals.",
       tags: ["Next.js", "TypeScript", "Tailwind CSS"],
       link: "https://heykaytay.live",
       isCase: false,
@@ -148,7 +211,7 @@ export default function Portfolio() {
     {
       title: "Founding Fullstack Engineer",
       company: "PingBack",
-      period: "Feb 2025 — Present",
+      period: "July 2025 — Present",
       details: "Leading architectural decisions and core platform development. Building omnichannel support infrastructure using WebSockets and real-time databases. Implemented multi-channel integrations (WhatsApp, Telegram, X, Instagram, Web). Currently architecting Theo AI agent system with knowledge-base management and autonomous response generation.",
       learned: ["Omnichannel architecture", "Real-time systems", "AI/LLM integration", "SaaS scaling"],
       challenges: "Managing complexity of multiple chat APIs with different rate limits and message formats. Solved through abstraction layer and intelligent queuing system.",
@@ -211,7 +274,7 @@ export default function Portfolio() {
               </div>
               <p className="text-muted-foreground text-sm mb-3">@heykaytay • Fullstack Web & Mobile Developer</p>
               <p className="text-foreground text-lg leading-relaxed mb-4">
-                Founding Fullstack Engineer at <span className="font-semibold">PingBack</span>. Fullstack web and mobile developer with 3+ years building production-grade applications. Specialized in React, React Native, Node.js, and cloud infrastructure. I craft performant, scalable solutions that solve real business problems.
+                Founding Fullstack Engineer at <span className="font-semibold">PingBack</span>. Fullstack web and mobile developer with 3+ years building production-grade applications. Specialized in React, React Native, Node.js, and AI infrastructure. I craft performant, scalable solutions that solve real business problems.
               </p>
               <div className="flex flex-wrap gap-2">
                 <Button
@@ -254,7 +317,7 @@ export default function Portfolio() {
             </div>
             <div>
               <p className="text-2xl font-bold text-primary">7</p>
-              <p className="text-xs text-muted-foreground uppercase tracking-widest">Projects Built</p>
+              <p className="text-xs text-muted-foreground uppercase tracking-widest">Projects Built Below</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-primary">3+</p>
@@ -402,21 +465,6 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-12 text-center border-t border-border">
-          <h2 className="text-2xl font-bold mb-4">Ready to work together?</h2>
-          <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-            I&apos;m always interested in hearing about new projects and opportunities. Let&apos;s talk about how I can help bring your vision to life.
-          </p>
-          <Button
-            size="lg"
-            className="rounded-full"
-            onClick={() => setModalType("contact")}
-          >
-            <Mail className="w-4 h-4 mr-2" /> Get in Touch
-          </Button>
-        </section>
-
         {/* Footer */}
         <footer className="pt-10 pb-12 border-t border-border text-center space-y-3">
           <p className="text-sm text-muted-foreground">
@@ -426,47 +474,139 @@ export default function Portfolio() {
         </footer>
       </main>
 
-      {/* Floating Action Menu */}
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
-        <div className="flex flex-col items-center gap-3">
-          {isFabOpen && (
-            <div className="flex flex-col gap-2 bg-background border border-border p-2 rounded-2xl shadow-xl animate-in slide-in-from-bottom-4 fade-in duration-200">
+      {/* Mascot Chatbot */}
+      <div className="fixed bottom-8 right-8 z-50">
+        {isChatbotOpen && (
+          <div className="mb-4 bg-background border border-border rounded-2xl shadow-xl p-4 w-80 animate-in slide-in-from-bottom-4 fade-in duration-200">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="font-semibold">Kaytay</h3>
               <button
                 onClick={() => {
-                  setModalType("contact")
-                  setIsFabOpen(false)
+                  setIsChatbotOpen(false)
+                  setChatbotStep("menu")
+                  setChatbotMessage("")
                 }}
-                className="flex items-center gap-3 px-4 py-2.5 hover:bg-secondary rounded-xl text-sm font-medium transition-colors"
+                className="text-muted-foreground hover:text-foreground"
               >
-                <Mail className="w-4 h-4 text-red-500" /> Contact Me
-              </button>
-              <button
-                onClick={() => {
-                  setModalType("review")
-                  setIsFabOpen(false)
-                }}
-                className="flex items-center gap-3 px-4 py-2.5 hover:bg-secondary rounded-xl text-sm font-medium transition-colors"
-              >
-                <Star className="w-4 h-4 text-yellow-500" /> Leave a Review
-              </button>
-              <button
-                onClick={() => {
-                  setModalType("endorse")
-                  setIsFabOpen(false)
-                }}
-                className="flex items-center gap-3 px-4 py-2.5 hover:bg-secondary rounded-xl text-sm font-medium transition-colors"
-              >
-                <Heart className="w-4 h-4 text-pink-500" /> Endorse Me
+                <X className="w-4 h-4" />
               </button>
             </div>
-          )}
-          <button
-            onClick={() => setIsFabOpen(!isFabOpen)}
-            className={`w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all ${isFabOpen ? "rotate-45" : ""}`}
-          >
-            <Plus className="w-7 h-7" />
-          </button>
-        </div>
+
+            {chatbotStep === "menu" && (
+              <div className="space-y-3">
+                <p className="text-sm text-muted-foreground mb-4">
+                  {chatbotMessage || "Hey there! I'm Kaytay. Let's chat and I can help you get in touch, leave a review, or learn more about me."}
+                </p>
+                <button
+                  onClick={() => setChatbotStep("contact")}
+                  className="w-full text-left px-4 py-3 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors text-sm font-medium"
+                >
+                  💬 Contact Me
+                </button>
+                <button
+                  onClick={() => setChatbotStep("review")}
+                  className="w-full text-left px-4 py-3 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors text-sm font-medium"
+                >
+                  ⭐ Leave a Review
+                </button>
+              </div>
+            )}
+
+            {chatbotStep === "contact" && (
+              <div className="space-y-3">
+                <p className="text-sm text-muted-foreground mb-4">
+                  I'd love to hear from you! Choose how you'd like to connect:
+                </p>
+                <Button
+                  className="w-full"
+                  onClick={() => {
+                    window.location.href = "mailto:terfajohn45@gmail.com"
+                    setIsChatbotOpen(false)
+                    setChatbotStep("menu")
+                  }}
+                >
+                  <Mail className="w-4 h-4 mr-2" /> Email Me
+                </Button>
+                <Button
+                  className="w-full"
+                  onClick={() => {
+                    window.open("https://wa.me/2348114219349", "_blank")
+                    setIsChatbotOpen(false)
+                    setChatbotStep("menu")
+                  }}
+                >
+                  <MessageSquare className="w-4 h-4 mr-2" /> WhatsApp
+                </Button>
+                <button
+                  onClick={() => {
+                    setChatbotStep("menu")
+                    setChatbotMessage("")
+                  }}
+                  className="w-full text-sm text-muted-foreground hover:text-foreground"
+                >
+                  ← Back
+                </button>
+              </div>
+            )}
+
+            {chatbotStep === "review" && (
+              <div className="space-y-3">
+                <p className="text-sm text-muted-foreground mb-4">
+                  I'd love your feedback! Rate your experience:
+                </p>
+                <div className="flex justify-center gap-2 mb-4">
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => setReviewStars(s)}
+                      className="transition-transform hover:scale-110"
+                    >
+                      <Star
+                        className={`w-6 h-6 ${s <= reviewStars ? "fill-yellow-400 text-yellow-400" : "text-border"}`}
+                      />
+                    </button>
+                  ))}
+                </div>
+                {reviewStars > 0 && (
+                  <Button
+                    className="w-full"
+                    onClick={() => {
+                      setModalType("review")
+                      setIsChatbotOpen(false)
+                      setChatbotStep("menu")
+                      setChatbotMessage("Thank you for your honest review! I'll use this to keep improving myself and my services. 🙏")
+                    }}
+                  >
+                    Continue to Review Form
+                  </Button>
+                )}
+                <button
+                  onClick={() => {
+                    setChatbotStep("menu")
+                    setChatbotMessage("")
+                    setReviewStars(0)
+                  }}
+                  className="w-full text-sm text-muted-foreground hover:text-foreground"
+                >
+                  ← Back
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        <button
+          onClick={() => {
+            setIsChatbotOpen(!isChatbotOpen)
+            if (!isChatbotOpen) {
+              setChatbotStep("menu")
+              setChatbotMessage("")
+            }
+          }}
+          className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all text-2xl"
+        >
+          👓
+        </button>
       </div>
 
       {/* Project Modal */}
@@ -489,25 +629,54 @@ export default function Portfolio() {
             </button>
           </div>
 
-          <div className="space-y-6 py-4">
+          <div className="space-y-6 py-4 max-h-[calc(90vh-150px)] overflow-y-auto">
             {selectedProject !== null && (
               <>
                 <div>
                   <h3 className="font-semibold mb-2">Overview</h3>
-                  <p className="text-foreground leading-relaxed">
-                    {projects[selectedProject]?.description}
+                  <p className="text-foreground leading-relaxed text-sm">
+                    {projects[selectedProject]?.overview}
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3">Tech Stack</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {projects[selectedProject]?.tags.map((tag) => (
-                      <Badge key={tag} variant="secondary">
-                        {tag}
-                      </Badge>
+                  <h3 className="font-semibold mb-2">The Problem</h3>
+                  <p className="text-foreground leading-relaxed text-sm">
+                    {projects[selectedProject]?.problem}
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-2">The Solution</h3>
+                  <p className="text-foreground leading-relaxed text-sm">
+                    {projects[selectedProject]?.solution}
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-2">Key Features</h3>
+                  <p className="text-foreground leading-relaxed text-sm">
+                    {projects[selectedProject]?.features}
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Technologies Used</h3>
+                  <div className="space-y-3">
+                    {projects[selectedProject]?.technologies.map((tech, idx) => (
+                      <div key={idx} className="p-3 rounded-lg bg-secondary/50 border border-border">
+                        <p className="font-medium text-sm mb-1">{tech.name}</p>
+                        <p className="text-xs text-muted-foreground">{tech.use}</p>
+                      </div>
                     ))}
                   </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-2">Challenges & Solutions</h3>
+                  <p className="text-foreground leading-relaxed text-sm">
+                    {projects[selectedProject]?.challenges}
+                  </p>
                 </div>
 
                 {projects[selectedProject]?.link !== "#" && (
@@ -566,33 +735,46 @@ export default function Portfolio() {
 
             {modalType === "review" && (
               <>
-                <div className="space-y-3">
-                  <label className="text-sm font-medium">Rating</label>
-                  <div className="flex justify-center gap-2">
-                    {[1, 2, 3, 4, 5].map((s) => (
-                      <button
-                        key={s}
-                        onClick={() => setReviewStars(s)}
-                        className="transition-transform hover:scale-110"
-                      >
-                        <Star
-                          className={`w-8 h-8 ${s <= reviewStars ? "fill-yellow-400 text-yellow-400" : "text-border"}`}
-                        />
-                      </button>
-                    ))}
+                {chatbotMessage ? (
+                  <div className="py-4 text-center">
+                    <p className="text-lg font-semibold mb-4">{chatbotMessage}</p>
+                    <Button className="w-full" onClick={() => { setModalType(null); setChatbotMessage("") }}>
+                      Close
+                    </Button>
                   </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Your Name</label>
-                  <Input placeholder="Jane Smith" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Review</label>
-                  <Textarea placeholder="Share your experience..." className="min-h-[100px]" />
-                </div>
-                <Button className="w-full" onClick={() => setModalType(null)}>
-                  <Heart className="w-4 h-4 mr-2" /> Submit Review
-                </Button>
+                ) : (
+                  <>
+                    <div className="space-y-3">
+                      <label className="text-sm font-medium">Rating</label>
+                      <div className="flex justify-center gap-2">
+                        {[1, 2, 3, 4, 5].map((s) => (
+                          <button
+                            key={s}
+                            onClick={() => setReviewStars(s)}
+                            className="transition-transform hover:scale-110"
+                          >
+                            <Star
+                              className={`w-8 h-8 ${s <= reviewStars ? "fill-yellow-400 text-yellow-400" : "text-border"}`}
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Your Name</label>
+                      <Input placeholder="Jane Smith" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Review</label>
+                      <Textarea placeholder="Share your experience..." className="min-h-[100px]" />
+                    </div>
+                    <Button className="w-full" onClick={() => {
+                      setChatbotMessage("Thank you for your honest review! I'll use this to keep improving myself and my services. 🙏")
+                    }}>
+                      <Heart className="w-4 h-4 mr-2" /> Submit Review
+                    </Button>
+                  </>
+                )}
               </>
             )}
 
