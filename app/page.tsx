@@ -46,13 +46,7 @@ const reviews = [
   { name: "Marcus Peters", text: "Worked with Terfa on Sturdivv. His React Native skills are world-class and his attention to UX is impeccable.", stars: 5 },
 ]
 
-const reviews = [
-  { name: "Alex Chen", text: "Terfa is a brilliant engineer with a keen eye for detail.", stars: 5 },
-  { name: "Sarah Miller", text: "Amazing delivery on the Foodify9ja project. Highly recommended!", stars: 5 },
-  { name: "John Doe", text: "Exceptional skills in both web and mobile development.", stars: 4 },
-  { name: "David Kim", text: "One of the best problem solvers I've worked with.", stars: 5 },
-  { name: "Lisa Wong", text: "Foodify9ja bot is a game changer for local grocery shopping.", stars: 5 },
-]
+
 
 export default function Portfolio() {
   const [activeQuote, setActiveQuote] = useState(0)
