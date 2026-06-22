@@ -74,16 +74,16 @@ export default function Portfolio() {
   }, [customerCount])
 
   const skills = [
-    { name: "Python", color: "#3776AB" },
-    { name: "JavaScript", color: "#F7DF1E" },
-    { name: "TypeScript", color: "#3178C6" },
-    { name: "React", color: "#61DAFB" },
-    { name: "React Native", color: "#61DAFB" },
-    { name: "Node.js", color: "#339933" },
-    { name: "Hono", color: "#FF6B00" },
-    { name: "SvelteKit", color: "#FF3B00" },
-    { name: "Docker", color: "#2496ED" },
-    { name: "PostgreSQL", color: "#336791" },
+    { name: "Python", icon: "/icons/python.png" },
+    { name: "JavaScript", icon: "/icons/javascript.png" },
+    { name: "TypeScript", icon: "/icons/typescript.png" },
+    { name: "React", icon: "/icons/react.png" },
+    { name: "React Native", icon: "/icons/react.png" },
+    { name: "Node.js", icon: "/icons/nodejs.png" },
+    { name: "Hono", icon: "/icons/hono.png" },
+    { name: "SvelteKit", icon: "/icons/svelte.png" },
+    { name: "Docker", icon: "/icons/docker.png" },
+    { name: "PostgreSQL", icon: "/icons/postgres.png" },
   ]
 
   const projects = [
@@ -363,13 +363,14 @@ export default function Portfolio() {
             {skills.map((skill) => (
               <div
                 key={skill.name}
-                className="p-3 rounded-lg border border-border bg-secondary/50 hover:bg-secondary transition-colors text-center"
+                className="p-4 rounded-lg border border-border bg-secondary/50 hover:bg-secondary transition-colors text-center flex flex-col items-center justify-center gap-2"
               >
-                <div
-                  className="w-8 h-8 rounded-lg mx-auto mb-2"
-                  style={{ backgroundColor: `${skill.color}20`, borderLeft: `3px solid ${skill.color}` }}
+                <img 
+                  src={skill.icon} 
+                  alt={skill.name}
+                  className="w-8 h-8 object-contain"
                 />
-                <p className="text-sm font-medium">{skill.name}</p>
+                <p className="text-xs font-medium">{skill.name}</p>
               </div>
             ))}
           </div>
