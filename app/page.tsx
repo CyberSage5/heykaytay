@@ -39,8 +39,8 @@ const quotes = [
 ]
 
 const reviews = [
-  { name: "Chioma Obi", company: "CaCu Technologies", text: "Terfa delivered the SME management platform ahead of schedule. His ability to handle both mobile and backend simultaneously was invaluable.", stars: 5 },
-  { name: "Yusuf Hassan", company: "Foodify9ja", text: "The WhatsApp bot Terfa built transformed our business. It went from concept to handling real transactions in 6 months. Exceptional execution.", stars: 5 },
+  { name: "Micheal Oyewale", company: "CaCu Technologies", text: "Terfa delivered the SME management platform ahead of schedule. His ability to handle both mobile and backend simultaneously was invaluable.", stars: 5 },
+  { name: "Luke Shagbaor", company: "Foodify9ja", text: "The WhatsApp bot Terfa built transformed our business. It went from concept to handling real transactions in 6 months. Exceptional execution.", stars: 5 },
   { name: "Aisha Patel", company: "Founder/Investor", text: "Smart developer who understands business. Terfa didn't just build features—he optimized for user behavior. His insights on UX were as valuable as the code.", stars: 5 },
   { name: "Ikechukwu Nwosu", company: "IESC Solutions", text: "Terfa mentored our junior team while shipping complex features. Rare combination of technical excellence and leadership. We'd hire him again immediately.", stars: 5 },
   { name: "Zainab Adeyemi", company: "PingBack User", text: "The omnichannel support system works flawlessly. It consolidated our Slack, WhatsApp, and email support into one clean dashboard. Game-changer for our team.", stars: 5 },
@@ -89,7 +89,7 @@ export default function Portfolio() {
       if (!isChatbotOpen) {
         setIsShaking(true)
         setTimeout(() => setIsShaking(false), 600)
-        
+
         setShowMascotMessage(true)
         setCurrentMascotMessage((prev) => (prev + 1) % mascotMessages.length)
         setTimeout(() => setShowMascotMessage(false), 3000)
@@ -105,7 +105,7 @@ export default function Portfolio() {
     { name: "React", icon: "/icons/react.png" },
     { name: "React Native", icon: "/icons/react.png" },
     { name: "Node.js", icon: "/icons/nodejs.png" },
-    { name: "Hono", icon: "/icons/hono.png" },
+    { name: "Tailwindcss", icon: "/icons/hono.png" },
     { name: "SvelteKit", icon: "/icons/svelte.png" },
     { name: "Docker", icon: "/icons/docker.png" },
     { name: "PostgreSQL", icon: "/icons/postgres.png" },
@@ -287,8 +287,8 @@ export default function Portfolio() {
         <header className="space-y-8">
           <div className="flex flex-col sm:flex-row sm:items-start gap-6">
             <div className="w-20 h-20 rounded-2xl bg-secondary flex items-center justify-center border border-border shadow-sm flex-shrink-0 overflow-hidden">
-              <img 
-                src="/kaytay-mascot.png" 
+              <img
+                src="/kaytay-mascot.png"
                 alt="KayTay mascot"
                 className="w-full h-full object-cover"
               />
@@ -399,8 +399,8 @@ export default function Portfolio() {
                 key={skill.name}
                 className="p-4 rounded-lg border border-border bg-secondary/50 hover:bg-secondary transition-colors text-center flex flex-col items-center justify-center gap-2"
               >
-                <img 
-                  src={skill.icon} 
+                <img
+                  src={skill.icon}
                   alt={skill.name}
                   className="w-8 h-8 object-contain"
                 />
@@ -508,7 +508,7 @@ export default function Portfolio() {
           <p className="text-sm text-muted-foreground">
             Crafted with precision and passion. Always learning, always building.
           </p>
-          <p className="text-xs text-muted-foreground font-mono">© 2025 heykaytay.live • terfajohn45@gmail.com</p>
+          <p className="text-xs text-muted-foreground font-mono">© 2026 heykaytay.live • terfajohn45@gmail.com</p>
         </footer>
       </main>
 
@@ -659,8 +659,8 @@ export default function Portfolio() {
             }}
             className={`w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all overflow-hidden ${isShaking ? "animate-shake-pop" : ""}`}
           >
-            <img 
-              src="/kaytay-mascot.png" 
+            <img
+              src="/kaytay-mascot.png"
               alt="KayTay"
               className="w-full h-full object-cover"
             />
@@ -724,7 +724,7 @@ export default function Portfolio() {
                     <h3 className="font-semibold mb-3">Technologies Used</h3>
                     <div className="space-y-3">
                       {projects[selectedProject]?.technologies.map((tech, idx) => {
-                        const techIconMap: {[key: string]: string} = {
+                        const techIconMap: { [key: string]: string } = {
                           "React": "/icons/react.png",
                           "React Native": "/icons/react.png",
                           "Node.js": "/icons/nodejs.png",
@@ -742,8 +742,8 @@ export default function Portfolio() {
                           <div key={idx} className="p-3 rounded-lg bg-secondary/50 border border-border">
                             <div className="flex items-center gap-2 mb-1">
                               {techIcon ? (
-                                <img 
-                                  src={techIcon} 
+                                <img
+                                  src={techIcon}
                                   alt={tech.name}
                                   className="w-5 h-5 object-contain flex-shrink-0"
                                 />
