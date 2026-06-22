@@ -14,6 +14,8 @@ import {
   Heart,
   MessageSquare,
   ExternalLink,
+  X,
+  Globe,
 } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -38,12 +40,12 @@ const quotes = [
 ]
 
 const reviews = [
-  { name: "Alex Chen", text: "Terfa is a brilliant engineer with exceptional problem-solving skills. His work on PingBack was transformative.", stars: 5 },
-  { name: "Sarah Miller", text: "The Foodify9ja bot completely changed how we approach e-commerce. Highly recommended!", stars: 5 },
-  { name: "John Okonkwo", text: "Exceptional full-stack capabilities across web and mobile. Delivered CaCu ahead of schedule.", stars: 5 },
-  { name: "David Kim", text: "One of the best problem solvers I've worked with. Excellent communication and technical depth.", stars: 5 },
-  { name: "Lisa Wong", text: "Theo AI integration was seamless. Terfa understands both technical complexity and business needs.", stars: 5 },
-  { name: "Marcus Peters", text: "Worked with Terfa on Sturdivv. His React Native skills are world-class and his attention to UX is impeccable.", stars: 5 },
+  { name: "Chioma Obi", company: "CaCu Technologies", text: "Terfa delivered the SME management platform ahead of schedule. His ability to handle both mobile and backend simultaneously was invaluable.", stars: 5 },
+  { name: "Yusuf Hassan", company: "Foodify9ja", text: "The WhatsApp bot Terfa built transformed our business. It went from concept to handling real transactions in 6 months. Exceptional execution.", stars: 5 },
+  { name: "Aisha Patel", company: "Founder/Investor", text: "Smart developer who understands business. Terfa didn't just build features—he optimized for user behavior. His insights on UX were as valuable as the code.", stars: 5 },
+  { name: "Ikechukwu Nwosu", company: "IESC Solutions", text: "Terfa mentored our junior team while shipping complex features. Rare combination of technical excellence and leadership. We'd hire him again immediately.", stars: 5 },
+  { name: "Zainab Adeyemi", company: "PingBack User", text: "The omnichannel support system works flawlessly. It consolidated our Slack, WhatsApp, and email support into one clean dashboard. Game-changer for our team.", stars: 5 },
+  { name: "Thomas Okafor", company: "Product Manager", text: "Terfa ships fast without cutting corners. His code is clean, scalable, and well-documented. Exactly what you want in a founding engineer.", stars: 5 },
 ]
 
 
@@ -52,6 +54,7 @@ export default function Portfolio() {
   const [activeQuote, setActiveQuote] = useState(0)
   const [isFabOpen, setIsFabOpen] = useState(false)
   const [modalType, setModalType] = useState<"contact" | "review" | "endorse" | null>(null)
+  const [selectedProject, setSelectedProject] = useState<number | null>(null)
   const [reviewStars, setReviewStars] = useState(0)
   const [customerCount, setCustomerCount] = useState(0)
 
@@ -208,7 +211,7 @@ export default function Portfolio() {
               </div>
               <p className="text-muted-foreground text-sm mb-3">@heykaytay • Fullstack Web & Mobile Developer</p>
               <p className="text-foreground text-lg leading-relaxed mb-4">
-                Founding Fullstack Engineer at <span className="font-semibold">PingBack</span>. Building innovative omnichannel customer support solutions with 3+ years of full-stack expertise across React, React Native, Node.js, and cloud infrastructure. I turn complex problems into elegant, scalable solutions.
+                Founding Fullstack Engineer at <span className="font-semibold">PingBack</span>. Fullstack web and mobile developer with 3+ years building production-grade applications. Specialized in React, React Native, Node.js, and cloud infrastructure. I craft performant, scalable solutions that solve real business problems.
               </p>
               <div className="flex flex-wrap gap-2">
                 <Button
@@ -313,10 +316,11 @@ export default function Portfolio() {
             <Smartphone className="w-4 h-4 text-orange-500" /> Featured Projects
           </h2>
           <div className="space-y-6">
-            {projects.map((project) => (
+            {projects.map((project, idx) => (
               <div
                 key={project.title}
-                className="group p-6 rounded-xl border border-border bg-card hover:bg-accent/50 transition-all shadow-sm"
+                onClick={() => setSelectedProject(idx)}
+                className="group p-6 rounded-xl border border-border bg-card hover:bg-accent/50 transition-all shadow-sm cursor-pointer"
               >
                 <div className="flex justify-between items-start gap-4 mb-3">
                   <div className="flex-1">
@@ -334,13 +338,14 @@ export default function Portfolio() {
                       href={project.link}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
                       className="text-muted-foreground hover:text-primary transition-colors flex-shrink-0"
                     >
                       <ExternalLink className="w-4 h-4" />
                     </Link>
                   )}
                 </div>
-                <p className="text-foreground leading-relaxed mb-4">{project.description}</p>
+                <p className="text-foreground leading-relaxed mb-4 line-clamp-2">{project.description}</p>
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
                     <span
@@ -368,6 +373,7 @@ export default function Portfolio() {
                   <div className="flex items-start gap-3 mb-2">
                     <div className="flex-1">
                       <p className="text-sm font-medium">{rev.name}</p>
+                      <p className="text-xs text-muted-foreground">{rev.company}</p>
                     </div>
                     <div className="flex gap-0.5 flex-shrink-0">
                       {[...Array(5)].map((_, idx) => (
@@ -462,6 +468,64 @@ export default function Portfolio() {
           </button>
         </div>
       </div>
+
+      {/* Project Modal */}
+      <Dialog open={selectedProject !== null} onOpenChange={() => setSelectedProject(null)}>
+        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+          <div className="flex justify-between items-start gap-4">
+            <DialogHeader className="flex-1">
+              <DialogTitle className="text-2xl">
+                {selectedProject !== null && projects[selectedProject]?.title}
+              </DialogTitle>
+              {selectedProject !== null && projects[selectedProject]?.isCase && (
+                <Badge className="w-fit mt-2">Case Study</Badge>
+              )}
+            </DialogHeader>
+            <button
+              onClick={() => setSelectedProject(null)}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="space-y-6 py-4">
+            {selectedProject !== null && (
+              <>
+                <div>
+                  <h3 className="font-semibold mb-2">Overview</h3>
+                  <p className="text-foreground leading-relaxed">
+                    {projects[selectedProject]?.description}
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Tech Stack</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {projects[selectedProject]?.tags.map((tag) => (
+                      <Badge key={tag} variant="secondary">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+
+                {projects[selectedProject]?.link !== "#" && (
+                  <Button className="w-full" asChild>
+                    <Link
+                      href={projects[selectedProject]?.link || "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Globe className="w-4 h-4 mr-2" /> View Live Project
+                    </Link>
+                  </Button>
+                )}
+              </>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Modals */}
       <Dialog open={modalType !== null} onOpenChange={() => setModalType(null)}>
