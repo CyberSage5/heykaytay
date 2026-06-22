@@ -58,6 +58,17 @@ export default function Portfolio() {
   const [reviewStars, setReviewStars] = useState(0)
   const [customerCount, setCustomerCount] = useState(0)
   const [chatbotMessage, setChatbotMessage] = useState("")
+  const [isShaking, setIsShaking] = useState(false)
+  const [showMascotMessage, setShowMascotMessage] = useState(false)
+
+  const mascotMessages = [
+    "Hey there! KayTay here 👋",
+    "Nice to meet you! Click me 😊",
+    "Got any questions? Let's chat!",
+    "Hey there, click me! 👇",
+    "What's up? I'm KayTay 🚀"
+  ]
+  const [currentMascotMessage, setCurrentMascotMessage] = useState(0)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -73,6 +84,20 @@ export default function Portfolio() {
     }
   }, [customerCount])
 
+  useEffect(() => {
+    const mascotInterval = setInterval(() => {
+      if (!isChatbotOpen) {
+        setIsShaking(true)
+        setTimeout(() => setIsShaking(false), 600)
+        
+        setShowMascotMessage(true)
+        setCurrentMascotMessage((prev) => (prev + 1) % mascotMessages.length)
+        setTimeout(() => setShowMascotMessage(false), 3000)
+      }
+    }, 8000)
+    return () => clearInterval(mascotInterval)
+  }, [isChatbotOpen, mascotMessages.length])
+
   const skills = [
     { name: "Python", icon: "/icons/python.png" },
     { name: "JavaScript", icon: "/icons/javascript.png" },
@@ -84,6 +109,8 @@ export default function Portfolio() {
     { name: "SvelteKit", icon: "/icons/svelte.png" },
     { name: "Docker", icon: "/icons/docker.png" },
     { name: "PostgreSQL", icon: "/icons/postgres.png" },
+    { name: "iOS", icon: "/icons/ios.png" },
+    { name: "Android", icon: "/icons/android.png" },
   ]
 
   const projects = [
@@ -259,10 +286,12 @@ export default function Portfolio() {
         {/* Header */}
         <header className="space-y-8">
           <div className="flex flex-col sm:flex-row sm:items-start gap-6">
-            <div className="w-20 h-20 rounded-2xl bg-secondary flex items-center justify-center border border-border text-5xl shadow-sm flex-shrink-0">
-              <span role="img" aria-label="profile">
-                👓
-              </span>
+            <div className="w-20 h-20 rounded-2xl bg-secondary flex items-center justify-center border border-border shadow-sm flex-shrink-0 overflow-hidden">
+              <img 
+                src="/kaytay-mascot.png" 
+                alt="KayTay mascot"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2">
@@ -273,6 +302,11 @@ export default function Portfolio() {
                 </div>
               </div>
               <p className="text-muted-foreground text-sm mb-3">@heykaytay • Fullstack Web & Mobile Developer</p>
+              <div className="flex items-center gap-2 mb-3">
+                <img src="/icons/ios.png" alt="iOS" className="w-5 h-5" />
+                <img src="/icons/android.png" alt="Android" className="w-5 h-5" />
+                <span className="text-muted-foreground text-xs">native development</span>
+              </div>
               <p className="text-foreground text-lg leading-relaxed mb-4">
                 Founding Fullstack Engineer at <span className="font-semibold">PingBack</span>. Fullstack web and mobile developer with 3+ years building production-grade applications. Specialized in React, React Native, Node.js, and AI infrastructure. I craft performant, scalable solutions that solve real business problems.
               </p>
@@ -284,7 +318,7 @@ export default function Portfolio() {
                   asChild
                 >
                   <Link href="https://github.com/CyberSage5" target="_blank" title="GitHub">
-                    <Github className="w-4 h-4 mr-2" /> GitHub
+                    <img src="/icons/github.png" alt="GitHub" className="w-4 h-4 mr-2" /> GitHub
                   </Link>
                 </Button>
                 <Button
@@ -304,7 +338,7 @@ export default function Portfolio() {
                   asChild
                 >
                   <Link href="mailto:terfajohn45@gmail.com" title="Email">
-                    <Mail className="w-4 h-4 mr-2" /> Email
+                    <img src="/icons/gmail.png" alt="Email" className="w-4 h-4 mr-2" /> Email
                   </Link>
                 </Button>
               </div>
@@ -519,17 +553,25 @@ export default function Portfolio() {
             {chatbotStep === "contact" && (
               <div className="space-y-3">
                 <p className="text-sm text-muted-foreground mb-4">
-                  I'd love to hear from you! Choose how you'd like to connect:
+                  Choose your preferred way to reach me:
                 </p>
                 <Button
-                  className="w-full"
+                  className="w-full justify-start"
+                  variant="outline"
                   onClick={() => {
                     window.location.href = "mailto:terfajohn45@gmail.com"
-                    setIsChatbotOpen(false)
-                    setChatbotStep("menu")
                   }}
                 >
-                  <Mail className="w-4 h-4 mr-2" /> Email Me
+                  <img src="/icons/gmail.png" alt="Gmail" className="w-4 h-4 mr-2" /> Email
+                </Button>
+                <Button
+                  className="w-full justify-start"
+                  variant="outline"
+                  onClick={() => {
+                    window.open("https://wa.me/2348123456789", "_blank")
+                  }}
+                >
+                  <img src="/icons/whatsapp.png" alt="WhatsApp" className="w-4 h-4 mr-2" /> WhatsApp
                 </Button>
                 <Button
                   className="w-full"
@@ -599,18 +641,31 @@ export default function Portfolio() {
           </div>
         )}
 
-        <button
-          onClick={() => {
-            setIsChatbotOpen(!isChatbotOpen)
-            if (!isChatbotOpen) {
-              setChatbotStep("menu")
-              setChatbotMessage("")
-            }
-          }}
-          className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all text-2xl"
-        >
-          👓
-        </button>
+        <div className="relative">
+          {showMascotMessage && (
+            <div className="absolute bottom-20 right-0 bg-card border border-border rounded-lg px-3 py-2 text-xs whitespace-nowrap shadow-lg mb-2">
+              <p className="text-foreground font-medium">{mascotMessages[currentMascotMessage]}</p>
+              <div className="absolute -bottom-1 right-3 w-2 h-2 bg-card border-b border-r border-border transform rotate-45"></div>
+            </div>
+          )}
+          <button
+            onClick={() => {
+              setIsChatbotOpen(!isChatbotOpen)
+              if (!isChatbotOpen) {
+                setChatbotStep("menu")
+                setChatbotMessage("")
+                setShowMascotMessage(false)
+              }
+            }}
+            className={`w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all overflow-hidden ${isShaking ? "animate-shake-pop" : ""}`}
+          >
+            <img 
+              src="/kaytay-mascot.png" 
+              alt="KayTay"
+              className="w-full h-full object-cover"
+            />
+          </button>
+        </div>
       </div>
 
       {/* Project Modal */}
@@ -669,30 +724,32 @@ export default function Portfolio() {
                     <h3 className="font-semibold mb-3">Technologies Used</h3>
                     <div className="space-y-3">
                       {projects[selectedProject]?.technologies.map((tech, idx) => {
-                        const techColorMap: {[key: string]: string} = {
-                          "React": "#61DAFB",
-                          "React Native": "#61DAFB",
-                          "Node.js": "#339933",
-                          "PostgreSQL": "#336791",
-                          "Stripe": "#635BFF",
-                          "WhatsApp API": "#25D366",
-                          "AI/ML": "#FF6B35",
-                          "LLMs": "#FF6B35",
-                          "Integration APIs": "#FF9500",
-                          "TypeScript": "#3178C6",
-                          "Next.js": "#000000",
-                          "Tailwind CSS": "#06B6D4",
-                          "WebSocket": "#00AA00",
-                          "Redis": "#DC382D"
+                        const techIconMap: {[key: string]: string} = {
+                          "React": "/icons/react.png",
+                          "React Native": "/icons/react.png",
+                          "Node.js": "/icons/nodejs.png",
+                          "PostgreSQL": "/icons/postgres.png",
+                          "TypeScript": "/icons/typescript.png",
+                          "Next.js": "/icons/nextjs.png",
+                          "JavaScript": "/icons/javascript.png",
+                          "Python": "/icons/python.png",
+                          "Docker": "/icons/docker.png",
+                          "iOS": "/icons/ios.png",
+                          "Android": "/icons/android.png",
                         }
-                        const techColor = techColorMap[tech.name] || "#6B7280"
+                        const techIcon = techIconMap[tech.name]
                         return (
                           <div key={idx} className="p-3 rounded-lg bg-secondary/50 border border-border">
                             <div className="flex items-center gap-2 mb-1">
-                              <div
-                                className="w-5 h-5 rounded-md flex-shrink-0"
-                                style={{ backgroundColor: `${techColor}30`, borderLeft: `3px solid ${techColor}` }}
-                              />
+                              {techIcon ? (
+                                <img 
+                                  src={techIcon} 
+                                  alt={tech.name}
+                                  className="w-5 h-5 object-contain flex-shrink-0"
+                                />
+                              ) : (
+                                <div className="w-5 h-5 rounded-md flex-shrink-0 bg-secondary" />
+                              )}
                               <p className="font-medium text-sm">{tech.name}</p>
                             </div>
                             <p className="text-xs text-muted-foreground">{tech.use}</p>
