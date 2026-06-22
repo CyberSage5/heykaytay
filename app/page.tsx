@@ -211,7 +211,7 @@ export default function Portfolio() {
     {
       title: "Founding Fullstack Engineer",
       company: "PingBack",
-      period: "July 2025 — Present",
+      period: "July 2025 — Till Date",
       details: "Leading architectural decisions and core platform development. Building omnichannel support infrastructure using WebSockets and real-time databases. Implemented multi-channel integrations (WhatsApp, Telegram, X, Instagram, Web). Currently architecting Theo AI agent system with knowledge-base management and autonomous response generation.",
       learned: ["Omnichannel architecture", "Real-time systems", "AI/LLM integration", "SaaS scaling"],
       challenges: "Managing complexity of multiple chat APIs with different rate limits and message formats. Solved through abstraction layer and intelligent queuing system.",
@@ -283,7 +283,7 @@ export default function Portfolio() {
                   className="rounded-full hover:bg-[#333] hover:text-white transition-all bg-transparent"
                   asChild
                 >
-                  <Link href="https://github.com/CyberSage5" target="_blank">
+                  <Link href="https://github.com/CyberSage5" target="_blank" title="GitHub">
                     <Github className="w-4 h-4 mr-2" /> GitHub
                   </Link>
                 </Button>
@@ -293,7 +293,7 @@ export default function Portfolio() {
                   className="rounded-full hover:bg-[#0077B5] hover:text-white transition-all bg-transparent"
                   asChild
                 >
-                  <Link href="https://linkedin.com/in/terfajohn" target="_blank">
+                  <Link href="https://linkedin.com/in/terfajohn" target="_blank" title="LinkedIn">
                     <Linkedin className="w-4 h-4 mr-2" /> LinkedIn
                   </Link>
                 </Button>
@@ -301,9 +301,11 @@ export default function Portfolio() {
                   variant="outline"
                   size="sm"
                   className="rounded-full hover:bg-red-500 hover:text-white transition-all bg-transparent"
-                  onClick={() => setModalType("contact")}
+                  asChild
                 >
-                  <Mail className="w-4 h-4 mr-2" /> Get in Touch
+                  <Link href="mailto:terfajohn45@gmail.com" title="Email">
+                    <Mail className="w-4 h-4 mr-2" /> Email
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -376,7 +378,7 @@ export default function Portfolio() {
         {/* Projects */}
         <section className="space-y-8">
           <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-widest flex items-center gap-2">
-            <Smartphone className="w-4 h-4 text-orange-500" /> Featured Projects
+            <Smartphone className="w-4 h-4 text-orange-500" /> Featured Projects ({projects.length} Projects Built)
           </h2>
           <div className="space-y-6">
             {projects.map((project, idx) => (
@@ -408,8 +410,8 @@ export default function Portfolio() {
                     </Link>
                   )}
                 </div>
-                <p className="text-foreground leading-relaxed mb-4 line-clamp-2">{project.description}</p>
-                <div className="flex flex-wrap gap-2">
+                <p className="text-foreground leading-relaxed mb-4 line-clamp-2">{project.overview}</p>
+                <div className="flex flex-wrap gap-2 mb-3">
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
@@ -419,6 +421,7 @@ export default function Portfolio() {
                     </span>
                   ))}
                 </div>
+                <p className="text-xs text-muted-foreground">Click to view detailed case study →</p>
               </div>
             ))}
           </div>
@@ -611,8 +614,8 @@ export default function Portfolio() {
 
       {/* Project Modal */}
       <Dialog open={selectedProject !== null} onOpenChange={() => setSelectedProject(null)}>
-        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
-          <div className="flex justify-between items-start gap-4">
+        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+          <div className="flex justify-between items-start gap-4 flex-shrink-0">
             <DialogHeader className="flex-1">
               <DialogTitle className="text-2xl">
                 {selectedProject !== null && projects[selectedProject]?.title}
@@ -623,75 +626,102 @@ export default function Portfolio() {
             </DialogHeader>
             <button
               onClick={() => setSelectedProject(null)}
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors flex-shrink-0"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          <div className="space-y-6 py-4 max-h-[calc(90vh-150px)] overflow-y-auto">
-            {selectedProject !== null && (
-              <>
-                <div>
-                  <h3 className="font-semibold mb-2">Overview</h3>
-                  <p className="text-foreground leading-relaxed text-sm">
-                    {projects[selectedProject]?.overview}
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold mb-2">The Problem</h3>
-                  <p className="text-foreground leading-relaxed text-sm">
-                    {projects[selectedProject]?.problem}
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold mb-2">The Solution</h3>
-                  <p className="text-foreground leading-relaxed text-sm">
-                    {projects[selectedProject]?.solution}
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold mb-2">Key Features</h3>
-                  <p className="text-foreground leading-relaxed text-sm">
-                    {projects[selectedProject]?.features}
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold mb-3">Technologies Used</h3>
-                  <div className="space-y-3">
-                    {projects[selectedProject]?.technologies.map((tech, idx) => (
-                      <div key={idx} className="p-3 rounded-lg bg-secondary/50 border border-border">
-                        <p className="font-medium text-sm mb-1">{tech.name}</p>
-                        <p className="text-xs text-muted-foreground">{tech.use}</p>
-                      </div>
-                    ))}
+          <div className="overflow-y-auto flex-1 pr-4">
+            <div className="space-y-6 py-4">
+              {selectedProject !== null && (
+                <>
+                  <div>
+                    <h3 className="font-semibold mb-2">Overview</h3>
+                    <p className="text-foreground leading-relaxed text-sm">
+                      {projects[selectedProject]?.overview}
+                    </p>
                   </div>
-                </div>
 
-                <div>
-                  <h3 className="font-semibold mb-2">Challenges & Solutions</h3>
-                  <p className="text-foreground leading-relaxed text-sm">
-                    {projects[selectedProject]?.challenges}
-                  </p>
-                </div>
+                  <div>
+                    <h3 className="font-semibold mb-2">The Problem</h3>
+                    <p className="text-foreground leading-relaxed text-sm">
+                      {projects[selectedProject]?.problem}
+                    </p>
+                  </div>
 
-                {projects[selectedProject]?.link !== "#" && (
-                  <Button className="w-full" asChild>
-                    <Link
-                      href={projects[selectedProject]?.link || "#"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Globe className="w-4 h-4 mr-2" /> View Live Project
-                    </Link>
-                  </Button>
-                )}
-              </>
-            )}
+                  <div>
+                    <h3 className="font-semibold mb-2">The Solution</h3>
+                    <p className="text-foreground leading-relaxed text-sm">
+                      {projects[selectedProject]?.solution}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold mb-2">Key Features</h3>
+                    <p className="text-foreground leading-relaxed text-sm">
+                      {projects[selectedProject]?.features}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold mb-3">Technologies Used</h3>
+                    <div className="space-y-3">
+                      {projects[selectedProject]?.technologies.map((tech, idx) => {
+                        const techColorMap: {[key: string]: string} = {
+                          "React": "#61DAFB",
+                          "React Native": "#61DAFB",
+                          "Node.js": "#339933",
+                          "PostgreSQL": "#336791",
+                          "Stripe": "#635BFF",
+                          "WhatsApp API": "#25D366",
+                          "AI/ML": "#FF6B35",
+                          "LLMs": "#FF6B35",
+                          "Integration APIs": "#FF9500",
+                          "TypeScript": "#3178C6",
+                          "Next.js": "#000000",
+                          "Tailwind CSS": "#06B6D4",
+                          "WebSocket": "#00AA00",
+                          "Redis": "#DC382D"
+                        }
+                        const techColor = techColorMap[tech.name] || "#6B7280"
+                        return (
+                          <div key={idx} className="p-3 rounded-lg bg-secondary/50 border border-border">
+                            <div className="flex items-center gap-2 mb-1">
+                              <div
+                                className="w-5 h-5 rounded-md flex-shrink-0"
+                                style={{ backgroundColor: `${techColor}30`, borderLeft: `3px solid ${techColor}` }}
+                              />
+                              <p className="font-medium text-sm">{tech.name}</p>
+                            </div>
+                            <p className="text-xs text-muted-foreground">{tech.use}</p>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold mb-2">Challenges & Solutions</h3>
+                    <p className="text-foreground leading-relaxed text-sm">
+                      {projects[selectedProject]?.challenges}
+                    </p>
+                  </div>
+
+                  {projects[selectedProject]?.link !== "#" && (
+                    <Button className="w-full" asChild>
+                      <Link
+                        href={projects[selectedProject]?.link || "#"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Globe className="w-4 h-4 mr-2" /> View Live Project
+                      </Link>
+                    </Button>
+                  )}
+                </>
+              )}
+            </div>
           </div>
         </DialogContent>
       </Dialog>
