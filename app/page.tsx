@@ -105,7 +105,7 @@ export default function Portfolio() {
     { name: "React", icon: "/icons/react.png" },
     { name: "React Native", icon: "/icons/react.png" },
     { name: "Node.js", icon: "/icons/nodejs.png" },
-    { name: "Tailwindcss", icon: "/icons/hono.png" },
+    { name: "Tailwindcss", icon: "/icons/tailwindcss.png" },
     { name: "SvelteKit", icon: "/icons/svelte.png" },
     { name: "Docker", icon: "/icons/docker.png" },
     { name: "PostgreSQL", icon: "/icons/postgres.png" },
